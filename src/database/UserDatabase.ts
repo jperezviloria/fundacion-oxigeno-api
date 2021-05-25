@@ -22,7 +22,7 @@ export const getUserById = async(idUser: string):Promise<QueryResult> =>{
 
 export const getUserByEmail = async(emailUser: string):Promise<QueryResult> =>{
     const query : QueryResult = await pool.query(`SELECT * FROM Users WHERE email = '${emailUser}'`)
-    return query
+    return query.rows[0]
 }
 
 export const getUsersByLevel = async(idLevel: number):Promise<QueryResult> =>{
