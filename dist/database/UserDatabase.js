@@ -29,7 +29,7 @@ const getUserById = (idUser) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUserById = getUserById;
 const getUserByEmail = (emailUser) => __awaiter(void 0, void 0, void 0, function* () {
     const query = yield database_1.pool.query(`SELECT * FROM Users WHERE email = '${emailUser}'`);
-    return query;
+    return query.rows[0];
 });
 exports.getUserByEmail = getUserByEmail;
 const getUsersByLevel = (idLevel) => __awaiter(void 0, void 0, void 0, function* () {
