@@ -1,0 +1,7 @@
+CREATE TABLE Rol(
+	id SERIAL,
+	rol VARCHAR(50),
+	PRIMARY KEY(id)
+);
+
+

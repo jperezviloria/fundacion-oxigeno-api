@@ -1,0 +1,13 @@
+CREATE TABLE Users(
+	id SERIAL,
+	email VARCHAR(80) NOT NULL,
+	password VARCHAR(200) NOT NULL,
+	name VARCHAR(80),
+	surname VARCHAR(80),
+	idRol INT NOT NULL,
+	urlImage VARCHAR(300),
+	publicId VARCHAR(200),
+	enable BOOL NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY (idRol) REFERENCES Rol (id)
+);
