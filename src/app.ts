@@ -5,7 +5,8 @@ import passport from "passport"
 import passportMiddleware from "./config/passport"
 
 import AuthRoutes from "./routes/AuthRoutes"
-
+import UserRoutes from "./routes/UserRoutes"
+import PublicUserRoutes from "./routes/public/UserRoutes"
 
 const app = Express();
 
@@ -19,6 +20,8 @@ app.use(passport.initialize())
 passport.use(passportMiddleware);
 
 app.use("/auth", AuthRoutes);
+app.use("/user",passport.authenticate('jwt', {session:false}), UserRoutes)
+app.use("/public/user", PublicUserRoutes);
 
 app.listen(app.get("port"));
 console.log(`Server on port ${app.get("port")}`);
