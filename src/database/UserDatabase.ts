@@ -62,3 +62,16 @@ export const saveUser = async(user:SignupRequest , passwordEncripted:any) =>{
     
     
 }
+
+
+export const updateNameAndSurnameUserById = async(user:any) =>{
+    try{
+      console.log(user);
+        const query : QueryResult = await pool.query(`UPDATE Users SET name = '${user.name}', surname = '${user.surname}' WHERE id = ${user.idUser} ;`)
+        return query.rows[0]
+    }catch(error){
+        return "NO UPDATED"
+    }
+    
+    
+}

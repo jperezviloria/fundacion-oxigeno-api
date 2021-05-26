@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveUser = exports.getPasswordUserByEmail = exports.getEmailUserByEmail = exports.getUsersByLevel = exports.getUserByEmail = exports.getUserById = exports.getUserFiltered = exports.getAllUsers = void 0;
+exports.updateNameAndSurnameUserById = exports.saveUser = exports.getPasswordUserByEmail = exports.getEmailUserByEmail = exports.getUsersByLevel = exports.getUserByEmail = exports.getUserById = exports.getUserFiltered = exports.getAllUsers = void 0;
 const database_1 = require("../config/database");
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const allUsers = yield database_1.pool.query(`SELECT * FROM Users`);
@@ -72,3 +72,14 @@ const saveUser = (user, passwordEncripted) => __awaiter(void 0, void 0, void 0, 
     }
 });
 exports.saveUser = saveUser;
+const updateNameAndSurnameUserById = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(user);
+        const query = yield database_1.pool.query(`UPDATE Users SET name = '${user.name}', surname = '${user.surname}' WHERE id = ${user.idUser} ;`);
+        return query.rows[0];
+    }
+    catch (error) {
+        return "NO UPDATED";
+    }
+});
+exports.updateNameAndSurnameUserById = updateNameAndSurnameUserById;
