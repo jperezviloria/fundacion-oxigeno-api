@@ -8,25 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const passport_jwt_1 = require("passport-jwt");
-const jwtSecretKey_1 = __importDefault(require("../config/jwtSecretKey"));
+//import configJwt from "./jwtSecretKey"
 const UserDatabase_1 = require("../database/UserDatabase");
-const opts = {
+var opts = {
     jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: jwtSecretKey_1.default.jwtSecret
+    secretOrKey: 'somesecrettoken'
 };
 exports.default = new passport_jwt_1.Strategy(opts, (payload, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield UserDatabase_1.getUserById(payload.id);
-        console.log("aqui");
-        console.log(payload);
-        console.log(payload.id);
-        console.log(payload.email);
-        console.log(user);
         if (user) {
             return done(null, user);
         }

@@ -15,9 +15,9 @@ export const getUserFiltered = async(email: string, level: number, rol: string):
     return usersFiltered
 }
 
-export const getUserById = async(idUser: string):Promise<QueryResult> =>{
+export const getUserById = async(idUser: number):Promise<QueryResult> =>{
     const query= await pool.query(`SELECT * FROM Users WHERE id = ${idUser}`)
-    return query
+    return query.rows[0]
 }
 
 export const getUserByEmail = async(emailUser: string):Promise<QueryResult> =>{
@@ -58,6 +58,19 @@ export const saveUser = async(user:SignupRequest , passwordEncripted:any) =>{
         return "saved"
     }catch(error){
         return "no saved"
+    }
+    
+    
+}
+
+
+export const updateNameAndSurnameUserById = async(user:any) =>{
+    try{
+      console.log(user);
+        const query : QueryResult = await pool.query(`UPDATE Users SET name = '${user.name}', surname = '${user.surname}' WHERE id = ${user.idUser} ;`)
+        return query.rows[0]
+    }catch(error){
+        return "NO UPDATED"
     }
     
     
