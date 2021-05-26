@@ -25,8 +25,8 @@ const MESSAGE_CREATED_TOKEN = "Token created";
 const MESSAGE_EMAIL_OR_PASSWORD_WRONG = "The Email or Password are wrong";
 const createToken = (user) => {
     return jsonwebtoken_1.default.sign({
-        id: user.idUser,
-        email: user.emailUser
+        id: user.id,
+        email: user.email
     }, jwtSecretKey_1.default.jwtSecret, {
         expiresIn: 86400
     });

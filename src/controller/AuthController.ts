@@ -19,8 +19,8 @@ const MESSAGE_EMAIL_OR_PASSWORD_WRONG: string = "The Email or Password are wrong
 
 export const createToken = (user: any) =>{
     return jwt.sign({
-        id: user.idUser,
-        email: user.emailUser
+        id: user.id,
+        email: user.email
     },
     jwtConfig.jwtSecret, {
         expiresIn: 86400
