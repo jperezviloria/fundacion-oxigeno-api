@@ -9,10 +9,24 @@ export const getAllUsers = async (): Promise<QueryResult> =>{
     return allUsers
 }
 
+export const uploadImageInformationProfileById = async(profile:any) =>{
+  try{
+  const profileUpdated: QueryResult = await pool.query(`UPDATE Users SET urlimage = '${profile.urlimage}', publicId = '${profile.publicid}' WHERE id = ${profile.id} RETURNING * ;`)
+  return profileUpdated.rows[0]
+  }catch(error){
+    console.log(error);
+  }
+}
+
 export const getUserFiltered = async(email: string, level: number, rol: string):Promise<QueryResult> =>{
     const usersFiltered : QueryResult = await pool.query(`EXEC GetFilteredUser @emailUser = ${email},@levelUser = ${level},@rol = ${rol}`)
     console.log(usersFiltered)
     return usersFiltered
+}
+
+export const getPhotoIdByIdUser = async(idUser: number):Promise<QueryResult> =>{
+    const query= await pool.query(`SELECT publicid FROM Users WHERE id = ${idUser}`)
+    return query
 }
 
 export const getUserById = async(idUser: number):Promise<QueryResult> =>{
