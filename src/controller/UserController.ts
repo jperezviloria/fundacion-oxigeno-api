@@ -1,5 +1,13 @@
 import {Request, Response} from "express"
-import {updateNameAndSurnameUserById} from "../database/UserDatabase"
+import path from "path"
+import fs from "fs-extra"
+import cloudinary from "../config/cloudinary"
+
+import {ProfileUploadImage} from "../dto/request/ProfileUploadImage"
+
+//import {uploadImage} from "../helper/UploadImageCloudinary"
+
+import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser} from "../database/UserDatabase"
 
 
 export const updateNameAndSurnameById = async(request: Request, response: Response) => {
@@ -26,3 +34,39 @@ export const updateNameAndSurnameById = async(request: Request, response: Respon
  
 }
 
+export const uploadPhotosById = async(request: Request, response:Response): Promise<Response> => {
+    const id = request.params.id
+    
+    console.log(request.file)
+
+    const result = await cloudinary.uploader.upload(request.file.path);
+  
+
+    await deletePhotoByIdWhenIWillUpdate(parseInt(id));
+   
+    console.log(result)
+    
+    const profile : ProfileUploadImage= {
+        id : parseInt(id),
+        urlimage: result.url,
+        publicid: result.public_id
+    }
+    await deletePhotoByIdWhenIWillUpdate(profile.id);
+    const updatedProfile = await uploadImageInformationProfileById(profile);
+    
+    await fs.unlink(request.file.path)
+
+    return response.json({
+        usernameUpdated: updatedProfile,
+        status: 200 
+    })
+}
+
+const deletePhotoByIdWhenIWillUpdate = async(id: number) =>{
+
+  const photoIdFromDatabase = await getPhotoIdByIdUser(id);
+  await cloudinary.uploader.destroy(photoIdFromDatabase.rows[0].publicid);
+  
+  
+
+}
