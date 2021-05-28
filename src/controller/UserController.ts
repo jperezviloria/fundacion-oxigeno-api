@@ -5,6 +5,8 @@ import cloudinary from "../config/cloudinary"
 
 import {ProfileUploadImage} from "../dto/request/ProfileUploadImage"
 
+//import {uploadImage} from "../helper/UploadImageCloudinary"
+
 import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser} from "../database/UserDatabase"
 
 

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
+//import {uploadImage} from "../helper/UploadImageCloudinary"
 const UserDatabase_1 = require("../database/UserDatabase");
 const updateNameAndSurnameById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     var user = {
