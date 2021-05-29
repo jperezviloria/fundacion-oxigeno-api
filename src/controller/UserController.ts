@@ -7,7 +7,7 @@ import {ProfileUploadImage} from "../dto/request/ProfileUploadImage"
 
 //import {uploadImage} from "../helper/UploadImageCloudinary"
 
-import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser} from "../database/UserDatabase"
+import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser, getAllUsers} from "../database/UserDatabase"
 
 
 export const updateNameAndSurnameById = async(request: Request, response: Response) => {
@@ -70,3 +70,11 @@ const deletePhotoByIdWhenIWillUpdate = async(id: number) =>{
   
 
 }
+
+export const getAllUsersController = async(request: Request, response: Response) =>{
+    const allUsers = await getAllUsers();
+  
+    return response.json({ data: allUsers})
+  }
+
+

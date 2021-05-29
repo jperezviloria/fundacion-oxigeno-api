@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
+exports.getAllUsersController = exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 //import {uploadImage} from "../helper/UploadImageCloudinary"
@@ -63,3 +63,8 @@ const deletePhotoByIdWhenIWillUpdate = (id) => __awaiter(void 0, void 0, void 0,
     const photoIdFromDatabase = yield UserDatabase_1.getPhotoIdByIdUser(id);
     yield cloudinary_1.default.uploader.destroy(photoIdFromDatabase.rows[0].publicid);
 });
+const getAllUsersController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const allUsers = yield UserDatabase_1.getAllUsers();
+    return response.json({ data: allUsers });
+});
+exports.getAllUsersController = getAllUsersController;
