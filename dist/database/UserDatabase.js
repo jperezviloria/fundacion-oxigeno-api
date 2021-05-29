@@ -13,7 +13,7 @@ exports.updateNameAndSurnameUserById = exports.saveUser = exports.getPasswordUse
 const database_1 = require("../config/database");
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const allUsers = yield database_1.pool.query(`SELECT * FROM Users`);
-    return allUsers;
+    return allUsers.rows;
 });
 exports.getAllUsers = getAllUsers;
 const uploadImageInformationProfileById = (profile) => __awaiter(void 0, void 0, void 0, function* () {

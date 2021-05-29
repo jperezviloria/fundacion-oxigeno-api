@@ -3,10 +3,10 @@ import { pool } from "../config/database"
 import { User } from "../model/User"
 import  {SignupRequest} from "../dto/request/SignupRequest"
 
-export const getAllUsers = async (): Promise<QueryResult> =>{
+export const getAllUsers = async () =>{
 
     const allUsers :QueryResult  = await pool.query(`SELECT * FROM Users`)
-    return allUsers
+    return allUsers.rows
 }
 
 export const uploadImageInformationProfileById = async(profile:any) =>{
