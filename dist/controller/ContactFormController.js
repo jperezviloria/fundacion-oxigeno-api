@@ -8,15 +8,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendContactFormBySmtp = void 0;
-//import {} from "../database/ContactFormDatabase"
+exports.changeStatusContactFormController = exports.getContactFormWhenIsFalseController = exports.getAllContactFormController = exports.sendContactFormBySmtp = void 0;
+const nodemailer_1 = require("../config/nodemailer");
+//import {ContactFormRequest} from "../dto/request/ContactFormRequest";
+const ContactFormDatabase_1 = require("../database/ContactFormDatabase");
+const moment_1 = __importDefault(require("moment"));
 const sendContactFormBySmtp = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let { name, email, description, country, date, phone } = request.body;
+        const contactForm = {
+            name: request.body.name,
+            email: request.body.email,
+            description: request.body.description,
+            country: request.body.country,
+            phone: request.body.phone,
+            date: moment_1.default().format(),
+            enable: false
+        };
         const contentHTML = `
     <div style="font-family: 'Lato', sans-serif;">
-    <h1>Solicitud de atención desde ${country}</h1>
+    <h1>Solicitud de atención desde ${contactForm.country}</h1>
     <h2>Datos personales</h2>
     <table border="1">
         <thead>
@@ -31,19 +45,47 @@ const sendContactFormBySmtp = (request, response) => __awaiter(void 0, void 0, v
             </tr>
         </thead>
         <tr>
-            <td>${name}</td>
-            <td>${email}</td>
-	    <td>${phone}</td>
-            <td>${country}</td>
-            <td>${description}</td>
-            <td>${date}</td>
+            <td>${contactForm.name}</td>
+            <td>${contactForm.email}</td>
+	    <td>${contactForm.phone}</td>
+            <td>${contactForm.country}</td>
+            <td>${contactForm.description}</td>
+            <td>${contactForm.date}</td>
         </tr>
     </table>
     </div>
     `;
         console.log(contentHTML);
-        return response.json(request.body);
+        yield ContactFormDatabase_1.saveContactForm(contactForm);
+        yield nodemailer_1.sendEmail(contentHTML);
+        return response.json({
+            "status": 200,
+            "message": "the email was sended"
+        });
     }
-    catch (error) { }
+    catch (error) {
+        console.log(error);
+        return response.json({
+            "status": 500,
+            "message": "error to send email"
+        });
+    }
 });
 exports.sendContactFormBySmtp = sendContactFormBySmtp;
+const getAllContactFormController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const allContactForms = yield ContactFormDatabase_1.getAllContactForm();
+    console.log(allContactForms);
+    return response.json({ data: allContactForms });
+});
+exports.getAllContactFormController = getAllContactFormController;
+const getContactFormWhenIsFalseController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const contactFormWhenIsFalse = yield ContactFormDatabase_1.getContactFormWhenIdFalse();
+    return response.json({ data: contactFormWhenIsFalse });
+});
+exports.getContactFormWhenIsFalseController = getContactFormWhenIsFalseController;
+const changeStatusContactFormController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = request.params.id;
+    const result = yield ContactFormDatabase_1.changeStatusContactForm(parseInt(id));
+    return response.json({ data: result });
+});
+exports.changeStatusContactFormController = changeStatusContactFormController;

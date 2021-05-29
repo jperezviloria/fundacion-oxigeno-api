@@ -1,8 +1,12 @@
 import {Router} from "express"
-import {updateNameAndSurnameById , uploadPhotosById} from "../controller/UserController"
+import {getAllUsersController, updateNameAndSurnameById , uploadPhotosById} from "../controller/UserController"
 import multer from "../config/multer"
 
 const router = Router();
+
+
+router.route("/getall")
+.get(getAllUsersController)
 
 router.route("/update/nameandsurname")
 .put(updateNameAndSurnameById)

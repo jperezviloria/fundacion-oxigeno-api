@@ -3,6 +3,7 @@ export interface ContactFormRequest {
   email: string;
   country: string;
   description: string;
-  date: Date;
+  date: string;
   phone: string;
+  enable: boolean;
 }
