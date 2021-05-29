@@ -12,6 +12,7 @@ import UserRoutes from "./routes/UserRoutes"
 import PublicUserRoutes from "./routes/public/UserRoutes"
 import SocialMediaRoutes from "./routes/SocialMediaRoutes"
 import ContactFormRoutes from "./routes/ContactFormRoutes"
+import SponsorRoutes from "./routes/SponsorRoutes"
 
 const app = Express();
 dotenv();
@@ -31,6 +32,7 @@ app.use("/user",passport.authenticate('jwt', {session:false}), UserRoutes)
 app.use("/public/user", PublicUserRoutes);
 app.use("/socialmedia", SocialMediaRoutes);
 app.use("/contact-form", ContactFormRoutes);
+app.use("/sponsor", SponsorRoutes);
 app.use("/upload",Express.static(path.resolve('uploads')));
 
 app.listen(app.get("port"));

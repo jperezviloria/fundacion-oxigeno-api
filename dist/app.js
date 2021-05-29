@@ -34,6 +34,7 @@ const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const UserRoutes_2 = __importDefault(require("./routes/public/UserRoutes"));
 const SocialMediaRoutes_1 = __importDefault(require("./routes/SocialMediaRoutes"));
 const ContactFormRoutes_1 = __importDefault(require("./routes/ContactFormRoutes"));
+const SponsorRoutes_1 = __importDefault(require("./routes/SponsorRoutes"));
 const app = express_1.default();
 dotenv_1.config();
 app.set("port", 5000);
@@ -48,6 +49,7 @@ app.use("/user", passport_1.default.authenticate('jwt', { session: false }), Use
 app.use("/public/user", UserRoutes_2.default);
 app.use("/socialmedia", SocialMediaRoutes_1.default);
 app.use("/contact-form", ContactFormRoutes_1.default);
+app.use("/sponsor", SponsorRoutes_1.default);
 app.use("/upload", express_1.default.static(path_1.default.resolve('uploads')));
 app.listen(app.get("port"));
 console.log(`Server on port ${app.get("port")}`);

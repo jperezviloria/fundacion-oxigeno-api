@@ -11,6 +11,9 @@ import cloudinary from "../../config/cloudinary"
 
 export const deletePhotoByPublicIdOnCloudinary = async(publicId: string) =>{
 
+  if(!publicId){
+    return 
+  }
   await cloudinary.uploader.destroy(publicId);
   
 } 
