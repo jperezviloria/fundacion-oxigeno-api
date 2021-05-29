@@ -20,6 +20,9 @@ const cloudinary_1 = __importDefault(require("../../config/cloudinary"));
 //await cloudinary.uploader.destroy(photoIdFromDatabase.rows[0].publicid);
 //} 
 const deletePhotoByPublicIdOnCloudinary = (publicId) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!publicId) {
+        return;
+    }
     yield cloudinary_1.default.uploader.destroy(publicId);
 });
 exports.deletePhotoByPublicIdOnCloudinary = deletePhotoByPublicIdOnCloudinary;
