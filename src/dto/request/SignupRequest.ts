@@ -4,4 +4,5 @@ export interface SignupRequest {
   passwordUser : string;
   idRol : number;
   enable : boolean;
+   
 }

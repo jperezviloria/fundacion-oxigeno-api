@@ -36,6 +36,7 @@ const SocialMediaRoutes_1 = __importDefault(require("./routes/SocialMediaRoutes"
 const ContactFormRoutes_1 = __importDefault(require("./routes/ContactFormRoutes"));
 const SponsorRoutes_1 = __importDefault(require("./routes/SponsorRoutes"));
 const PaypalRoutes_1 = __importDefault(require("./routes/PaypalRoutes"));
+const AuthPrivateRoutes_1 = __importDefault(require("./routes/privates/AuthPrivateRoutes"));
 const app = express_1.default();
 dotenv_1.config();
 app.set("port", 5000);
@@ -45,6 +46,7 @@ app.use(cors_1.default());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(passport_1.default.initialize());
 passport_1.default.use(passport_2.default);
+//public routes
 app.use("/auth", AuthRoutes_1.default);
 app.use("/user", passport_1.default.authenticate('jwt', { session: false }), UserRoutes_1.default);
 app.use("/public/user", UserRoutes_2.default);
@@ -53,5 +55,7 @@ app.use("/contact-form", ContactFormRoutes_1.default);
 app.use("/sponsor", SponsorRoutes_1.default);
 app.use("/paypal", PaypalRoutes_1.default);
 app.use("/upload", express_1.default.static(path_1.default.resolve('uploads')));
+//private routes
+app.use("/private-auth", passport_1.default.authenticate('jwt', { session: false }), AuthPrivateRoutes_1.default);
 app.listen(app.get("port"));
 console.log(`Server on port ${app.get("port")}`);
