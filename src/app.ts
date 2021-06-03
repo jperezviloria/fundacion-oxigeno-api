@@ -15,6 +15,9 @@ import ContactFormRoutes from "./routes/ContactFormRoutes"
 import SponsorRoutes from "./routes/SponsorRoutes"
 import PaypalRoutes from "./routes/PaypalRoutes"
 
+import AuthPrivateRoutes from "./routes/privates/AuthPrivateRoutes"
+
+
 const app = Express();
 dotenv();
 
@@ -28,6 +31,7 @@ app.use(Express.urlencoded({extended:false}))
 app.use(passport.initialize())
 passport.use(passportMiddleware);
 
+//public routes
 app.use("/auth", AuthRoutes);
 app.use("/user",passport.authenticate('jwt', {session:false}), UserRoutes)
 app.use("/public/user", PublicUserRoutes);
@@ -36,6 +40,10 @@ app.use("/contact-form", ContactFormRoutes);
 app.use("/sponsor", SponsorRoutes);
 app.use("/paypal", PaypalRoutes)
 app.use("/upload",Express.static(path.resolve('uploads')));
+
+
+//private routes
+app.use("/private-auth", passport.authenticate('jwt',{session:false}),AuthPrivateRoutes);
 
 app.listen(app.get("port"));
 console.log(`Server on port ${app.get("port")}`);
