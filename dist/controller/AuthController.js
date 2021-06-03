@@ -37,7 +37,7 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         emailUser: req.body.emailUser,
         passwordUser: req.body.passwordUser,
         idRol: req.body.idRol,
-        enable: true
+        enable: true,
     };
     if (!user.emailUser || !user.passwordUser || !user.idRol) {
         return res.json({
