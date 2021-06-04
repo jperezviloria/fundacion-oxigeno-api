@@ -5,7 +5,7 @@ import  {SignupRequest} from "../dto/request/SignupRequest"
 
 export const getAllUsers = async () =>{
 
-    const allUsers :QueryResult  = await pool.query(`SELECT * FROM Users`)
+    const allUsers :QueryResult  = await pool.query(`SELECT * FROM Users ORDER BY id DESC`)
     return allUsers.rows
 }
 
@@ -88,4 +88,28 @@ export const updateNameAndSurnameUserById = async(user:any) =>{
     }
     
     
+
+}
+
+export const updateEnableUserById = async(user:any) =>{
+    try{
+      console.log(user);
+        const query : QueryResult = await pool.query(`UPDATE Users SET enable = ${user.enable} WHERE id = ${user.idUser} ;`)
+        return "UPDATED"
+    }catch(error){
+        return "NO UPDATED"
+    }
+}
+
+
+
+
+export const deleteUserById = async(userId : number ) =>{
+  try{
+    console.log(userId)
+    const query : QueryResult = await pool.query(`DELETE FROM Users WHERE id = ${userId}`)
+    return "deleted"
+  }catch(error){
+   return "no deleted" 
+  }
 }

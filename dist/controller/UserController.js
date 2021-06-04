@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUsersController = exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
+exports.getUserByEmailController = exports.deleteUserByIdController = exports.changeEnableUserById = exports.getAllUsersController = exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 //import {uploadImage} from "../helper/UploadImageCloudinary"
@@ -68,3 +68,32 @@ const getAllUsersController = (request, response) => __awaiter(void 0, void 0, v
     return response.json({ data: allUsers });
 });
 exports.getAllUsersController = getAllUsersController;
+const changeEnableUserById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const userToChangeEnable = {
+        idUser: request.body.id,
+        enable: request.body.enable
+    };
+    const userChanged = yield UserDatabase_1.updateEnableUserById(userToChangeEnable);
+    return response.json({
+        data: userChanged
+    });
+});
+exports.changeEnableUserById = changeEnableUserById;
+const deleteUserByIdController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const idRequest = request.params.id;
+    if (typeof (idRequest) == typeof (1)) {
+        return response.json({ message: "this id isn't a number" });
+    }
+    const id = parseInt(idRequest);
+    const userDeleted = yield UserDatabase_1.deleteUserById(id);
+    return response.json({ message: userDeleted });
+});
+exports.deleteUserByIdController = deleteUserByIdController;
+const getUserByEmailController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const emailRequest = request.params.email;
+    const userSelected = yield UserDatabase_1.getUserByEmail(emailRequest);
+    return response.json({
+        data: userSelected
+    });
+});
+exports.getUserByEmailController = getUserByEmailController;

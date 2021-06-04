@@ -7,7 +7,7 @@ import {ProfileUploadImage} from "../dto/request/ProfileUploadImage"
 
 //import {uploadImage} from "../helper/UploadImageCloudinary"
 
-import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser, getAllUsers} from "../database/UserDatabase"
+import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser, getAllUsers , deleteUserById, updateEnableUserById, getUserByEmail} from "../database/UserDatabase"
 
 
 export const updateNameAndSurnameById = async(request: Request, response: Response) => {
@@ -76,5 +76,37 @@ export const getAllUsersController = async(request: Request, response: Response)
   
     return response.json({ data: allUsers})
   }
+
+export const changeEnableUserById = async (request: Request, response: Response) =>{
+  const userToChangeEnable = {
+    idUser: request.body.id,
+    enable: request.body.enable
+  }
+
+  const userChanged = await updateEnableUserById(userToChangeEnable);
+  return response.json({
+  data: userChanged})
+}
+
+
+export const deleteUserByIdController = async(request: Request, response: Response) =>{
+  const idRequest = request.params.id;
+  if ( typeof(idRequest) == typeof(1)){
+   return response.json({message: "this id isn't a number"})
+  }
+  const id = parseInt(idRequest)
+ const userDeleted = await deleteUserById(id); 
+  return response.json({message: userDeleted})
+}
+
+
+
+export const getUserByEmailController = async (request: Request, response: Response) =>{
+  const emailRequest = request.params.email;
+
+  const userSelected = await getUserByEmail(emailRequest);
+  return response.json({
+  data: userSelected})
+}
 
 
