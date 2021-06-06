@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeStatusContactFormController = exports.getContactFormWhenIsFalseController = exports.getAllContactFormController = exports.sendContactFormBySmtp = void 0;
+exports.getContactFormByIdController = exports.changeStatusContactFormController = exports.getContactFormWhenIsFalseController = exports.getAllContactFormController = exports.sendContactFormBySmtp = void 0;
 const nodemailer_1 = require("../config/nodemailer");
 //import {ContactFormRequest} from "../dto/request/ContactFormRequest";
 const ContactFormDatabase_1 = require("../database/ContactFormDatabase");
@@ -89,3 +89,13 @@ const changeStatusContactFormController = (request, response) => __awaiter(void 
     return response.json({ data: result });
 });
 exports.changeStatusContactFormController = changeStatusContactFormController;
+const getContactFormByIdController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const idRequest = request.params.id;
+    if (typeof (idRequest) == typeof (1)) {
+        return response.json({ message: "this id isn't a number" });
+    }
+    const id = parseInt(idRequest);
+    const userFinded = yield ContactFormDatabase_1.getContactFormById(id);
+    return response.json({ message: userFinded });
+});
+exports.getContactFormByIdController = getContactFormByIdController;

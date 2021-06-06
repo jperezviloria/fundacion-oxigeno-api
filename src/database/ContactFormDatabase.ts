@@ -47,3 +47,7 @@ export const changeStatusContactForm = async (id: number) =>{
   }
 }
 
+export const getContactFormById = async(idContactForm: number) =>{
+    const query= await pool.query(`SELECT * FROM ContactForm WHERE id = ${idContactForm}`)
+    return query.rows[0]
+}

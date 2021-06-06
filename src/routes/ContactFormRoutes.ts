@@ -1,5 +1,5 @@
 import {Router} from "express"
-import {changeStatusContactFormController, getAllContactFormController, getContactFormWhenIsFalseController, sendContactFormBySmtp} from "../controller/ContactFormController"
+import {changeStatusContactFormController, getAllContactFormController, getContactFormByIdController, getContactFormWhenIsFalseController, sendContactFormBySmtp} from "../controller/ContactFormController"
 
 
 const router = Router();
@@ -16,5 +16,7 @@ router.route("/change-status/:id")
 router.route("/smtp/send")
 .post(sendContactFormBySmtp)
 
+router.route("/getbyid/:id")
+.get(getContactFormByIdController)
 
 export default router;
