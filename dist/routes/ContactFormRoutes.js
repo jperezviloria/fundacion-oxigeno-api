@@ -11,4 +11,6 @@ router.route("/change-status/:id")
     .put(ContactFormController_1.changeStatusContactFormController);
 router.route("/smtp/send")
     .post(ContactFormController_1.sendContactFormBySmtp);
+router.route("/getbyid/:id")
+    .get(ContactFormController_1.getContactFormByIdController);
 exports.default = router;

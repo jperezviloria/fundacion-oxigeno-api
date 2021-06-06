@@ -13,4 +13,10 @@ router.route("/update/nameandsurname")
     .put(UserController_1.updateNameAndSurnameById);
 router.route("/update/upload-image/:id")
     .post(multer_1.default.single('image'), UserController_1.uploadPhotosById);
+router.route("/delete/:id")
+    .delete(UserController_1.deleteUserByIdController);
+router.route("/change/enable")
+    .put(UserController_1.changeEnableUserById);
+router.route("/getbyemail/:email")
+    .get(UserController_1.getUserByEmailController);
 exports.default = router;

@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateNameAndSurnameUserById = exports.saveUser = exports.getPasswordUserByEmail = exports.getEmailUserByEmail = exports.getUsersByLevel = exports.getUserByEmail = exports.getUserById = exports.getPhotoIdByIdUser = exports.getUserFiltered = exports.uploadImageInformationProfileById = exports.getAllUsers = void 0;
+exports.deleteUserById = exports.updateEnableUserById = exports.updateNameAndSurnameUserById = exports.saveUser = exports.getPasswordUserByEmail = exports.getEmailUserByEmail = exports.getUsersByLevel = exports.getUserByEmail = exports.getUserById = exports.getPhotoIdByIdUser = exports.getUserFiltered = exports.uploadImageInformationProfileById = exports.getAllUsers = void 0;
 const database_1 = require("../config/database");
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const allUsers = yield database_1.pool.query(`SELECT * FROM Users`);
+    const allUsers = yield database_1.pool.query(`SELECT * FROM Users ORDER BY id DESC`);
     return allUsers.rows;
 });
 exports.getAllUsers = getAllUsers;
@@ -98,3 +98,25 @@ const updateNameAndSurnameUserById = (user) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.updateNameAndSurnameUserById = updateNameAndSurnameUserById;
+const updateEnableUserById = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(user);
+        const query = yield database_1.pool.query(`UPDATE Users SET enable = ${user.enable} WHERE id = ${user.idUser} ;`);
+        return "UPDATED";
+    }
+    catch (error) {
+        return "NO UPDATED";
+    }
+});
+exports.updateEnableUserById = updateEnableUserById;
+const deleteUserById = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(userId);
+        const query = yield database_1.pool.query(`DELETE FROM Users WHERE id = ${userId}`);
+        return "deleted";
+    }
+    catch (error) {
+        return "no deleted";
+    }
+});
+exports.deleteUserById = deleteUserById;
