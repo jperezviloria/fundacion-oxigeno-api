@@ -29,7 +29,7 @@ export const getPhotoIdByIdUser = async(idUser: number):Promise<QueryResult> =>{
     return query
 }
 
-export const getUserById = async(idUser: number):Promise<QueryResult> =>{
+export const getUserById = async(idUser: number) =>{
     const query= await pool.query(`SELECT * FROM Users WHERE id = ${idUser}`)
     return query.rows[0]
 }

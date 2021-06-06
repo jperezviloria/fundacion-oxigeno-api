@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeStatusContactForm = exports.getContactFormWhenIdFalse = exports.getAllContactForm = exports.saveContactForm = void 0;
+exports.getContactFormById = exports.changeStatusContactForm = exports.getContactFormWhenIdFalse = exports.getAllContactForm = exports.saveContactForm = void 0;
 const database_1 = require("../config/database");
 const saveContactForm = (contactForm) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -51,3 +51,8 @@ const changeStatusContactForm = (id) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.changeStatusContactForm = changeStatusContactForm;
+const getContactFormById = (idContactForm) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = yield database_1.pool.query(`SELECT * FROM ContactForm WHERE id = ${idContactForm}`);
+    return query.rows[0];
+});
+exports.getContactFormById = getContactFormById;

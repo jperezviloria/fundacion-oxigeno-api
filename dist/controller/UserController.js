@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserByEmailController = exports.deleteUserByIdController = exports.changeEnableUserById = exports.getAllUsersController = exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
+exports.getUserByEmailController = exports.deleteUserByIdController = exports.changeEnableUserById = exports.getAllUsersEnableWithImageController = exports.getAllUsersController = exports.uploadPhotosById = exports.updateNameAndSurnameById = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 //import {uploadImage} from "../helper/UploadImageCloudinary"
@@ -43,14 +43,19 @@ const uploadPhotosById = (request, response) => __awaiter(void 0, void 0, void 0
     const id = request.params.id;
     console.log(request.file);
     const result = yield cloudinary_1.default.uploader.upload(request.file.path);
-    yield deletePhotoByIdWhenIWillUpdate(parseInt(id));
+    const particularUser = yield UserDatabase_1.getUserById(parseInt(id));
+    console.log(particularUser);
+    if (particularUser.urlimage != null) {
+        yield deletePhotoByIdWhenIWillUpdate(parseInt(id));
+    }
+    //await deletePhotoByIdWhenIWillUpdate(parseInt(id));
     console.log(result);
     const profile = {
         id: parseInt(id),
         urlimage: result.url,
         publicid: result.public_id
     };
-    yield deletePhotoByIdWhenIWillUpdate(profile.id);
+    //await deletePhotoByIdWhenIWillUpdate(profile.id);
     const updatedProfile = yield UserDatabase_1.uploadImageInformationProfileById(profile);
     yield fs_extra_1.default.unlink(request.file.path);
     return response.json({
@@ -68,6 +73,18 @@ const getAllUsersController = (request, response) => __awaiter(void 0, void 0, v
     return response.json({ data: allUsers });
 });
 exports.getAllUsersController = getAllUsersController;
+const checkThatHaveImage = (user) => {
+    if (user.urlimage && user.enable) {
+        return user;
+    }
+};
+const getAllUsersEnableWithImageController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const allUsers = yield UserDatabase_1.getAllUsers();
+    const usersFiltered = allUsers.filter(checkThatHaveImage);
+    //console.log(usersFiltered)
+    return response.json({ data: usersFiltered });
+});
+exports.getAllUsersEnableWithImageController = getAllUsersEnableWithImageController;
 const changeEnableUserById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     const userToChangeEnable = {
         idUser: request.body.id,

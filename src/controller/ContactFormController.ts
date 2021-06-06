@@ -1,7 +1,7 @@
 import {Request, Response} from "express"
 import {sendEmail} from "../config/nodemailer"
 //import {ContactFormRequest} from "../dto/request/ContactFormRequest";
-import {changeStatusContactForm, getAllContactForm, getContactFormWhenIdFalse, saveContactForm} from "../database/ContactFormDatabase"
+import {changeStatusContactForm, getAllContactForm, getContactFormById, getContactFormWhenIdFalse, saveContactForm} from "../database/ContactFormDatabase"
 import moment from "moment"
 import {ContactFormRequest} from "../dto/request/ContactFormRequest";
 
@@ -86,3 +86,14 @@ export const sendContactFormBySmtp = async(request: Request, response:Response) 
     const result = await changeStatusContactForm(parseInt(id));
     return response.json({ data: result})
   }
+export const getContactFormByIdController = async(request: Request, response: Response) =>{
+  const idRequest = request.params.id;
+  if ( typeof(idRequest) == typeof(1)){
+   return response.json({message: "this id isn't a number"})
+  }
+  const id = parseInt(idRequest)
+ const userFinded = await getContactFormById(id); 
+  return response.json({message: userFinded})
+}
+
+

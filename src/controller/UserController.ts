@@ -7,7 +7,8 @@ import {ProfileUploadImage} from "../dto/request/ProfileUploadImage"
 
 //import {uploadImage} from "../helper/UploadImageCloudinary"
 
-import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser, getAllUsers , deleteUserById, updateEnableUserById, getUserByEmail} from "../database/UserDatabase"
+import {updateNameAndSurnameUserById, uploadImageInformationProfileById , getPhotoIdByIdUser, getAllUsers , deleteUserById, updateEnableUserById, getUserByEmail, getUserById} from "../database/UserDatabase"
+import {User} from "../model/User"
 
 
 export const updateNameAndSurnameById = async(request: Request, response: Response) => {
@@ -41,8 +42,12 @@ export const uploadPhotosById = async(request: Request, response:Response): Prom
 
     const result = await cloudinary.uploader.upload(request.file.path);
   
-
-    await deletePhotoByIdWhenIWillUpdate(parseInt(id));
+    const particularUser = await getUserById(parseInt(id))
+    console.log(particularUser)
+    if(particularUser.urlimage != null){
+      await deletePhotoByIdWhenIWillUpdate(parseInt(id));
+    }
+    //await deletePhotoByIdWhenIWillUpdate(parseInt(id));
    
     console.log(result)
     
@@ -51,7 +56,7 @@ export const uploadPhotosById = async(request: Request, response:Response): Prom
         urlimage: result.url,
         publicid: result.public_id
     }
-    await deletePhotoByIdWhenIWillUpdate(profile.id);
+    //await deletePhotoByIdWhenIWillUpdate(profile.id);
     const updatedProfile = await uploadImageInformationProfileById(profile);
     
     await fs.unlink(request.file.path)
@@ -77,6 +82,22 @@ export const getAllUsersController = async(request: Request, response: Response)
     return response.json({ data: allUsers})
   }
 
+const checkThatHaveImage = (user:any) =>{
+  if(user.urlimage && user.enable){
+    return user
+  }
+}
+
+export const getAllUsersEnableWithImageController = async(request: Request, response: Response) =>{
+    const allUsers = await getAllUsers();
+  
+    
+    const usersFiltered = allUsers.filter(checkThatHaveImage)
+    //console.log(usersFiltered)
+    return response.json({ data: usersFiltered})
+  }
+
+
 export const changeEnableUserById = async (request: Request, response: Response) =>{
   const userToChangeEnable = {
     idUser: request.body.id,
@@ -84,9 +105,12 @@ export const changeEnableUserById = async (request: Request, response: Response)
   }
 
   const userChanged = await updateEnableUserById(userToChangeEnable);
+
   return response.json({
   data: userChanged})
 }
+
+
 
 
 export const deleteUserByIdController = async(request: Request, response: Response) =>{
