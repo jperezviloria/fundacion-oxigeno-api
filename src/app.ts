@@ -16,7 +16,7 @@ import SponsorRoutes from "./routes/SponsorRoutes"
 import PaypalRoutes from "./routes/PaypalRoutes"
 
 import AuthPrivateRoutes from "./routes/privates/AuthPrivateRoutes"
-
+import EventPrivateRoutes from "./routes/privates/EventPrivateRoutes"
 
 const app = Express();
 dotenv();
@@ -44,6 +44,7 @@ app.use("/upload",Express.static(path.resolve('uploads')));
 
 //private routes
 app.use("/private-auth", passport.authenticate('jwt',{session:false}),AuthPrivateRoutes);
+app.use("/private-event", passport.authenticate('jwt',{session:false}),EventPrivateRoutes);
 
 app.listen(app.get("port"));
 console.log(`Server on port ${app.get("port")}`);
