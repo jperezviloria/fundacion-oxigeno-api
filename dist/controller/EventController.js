@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadPhotosByIdEvent = exports.saveTitleDescriptionAndDateEventController = void 0;
+exports.changeStatusEventController = exports.deleteEventControllerById = exports.getPrivatesEventsWithFalseStateController = exports.getAllPrivatesEventsController = exports.uploadPhotosByIdEvent = exports.saveTitleDescriptionAndDateEventController = void 0;
 const EventDatabase_1 = require("../database/EventDatabase");
 const moment_1 = __importDefault(require("moment"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
@@ -64,3 +64,27 @@ const deletePhotoByIdWhenIWillUpdate = (id) => __awaiter(void 0, void 0, void 0,
     const photoIdFromDatabase = yield EventDatabase_1.getPhotoIdByIdEvent(id);
     yield cloudinary_1.default.uploader.destroy(photoIdFromDatabase.rows[0].publicid);
 });
+const getAllPrivatesEventsController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const allContactForms = yield EventDatabase_1.getAllEvents();
+    console.log(allContactForms);
+    return response.json({ data: allContactForms });
+});
+exports.getAllPrivatesEventsController = getAllPrivatesEventsController;
+const getPrivatesEventsWithFalseStateController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const allContactForms = yield EventDatabase_1.getEventsWithFalseState();
+    console.log(allContactForms);
+    return response.json({ data: allContactForms });
+});
+exports.getPrivatesEventsWithFalseStateController = getPrivatesEventsWithFalseStateController;
+const deleteEventControllerById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = request.params.id;
+    const result = yield EventDatabase_1.deleteEventById(parseInt(id));
+    return response.json({ data: result });
+});
+exports.deleteEventControllerById = deleteEventControllerById;
+const changeStatusEventController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = request.params.id;
+    const result = yield EventDatabase_1.changeStatusEventById(parseInt(id));
+    return response.json({ data: result });
+});
+exports.changeStatusEventController = changeStatusEventController;

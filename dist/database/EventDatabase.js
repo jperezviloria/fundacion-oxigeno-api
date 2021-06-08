@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllEventsWithJoin = exports.getAllEvents = exports.changeStatusEventById = exports.updateYoutubeEventById = exports.deleteYoutubeEventById = exports.saveYoutubeEvent = exports.updateImageUrlAndPublicId = exports.getPhotoIdByIdEvent = exports.getEventById = exports.deleteEventById = exports.saveTitleDescriptionAndDateEvent = void 0;
+exports.getAllEventsWithJoin = exports.getEventsWithFalseState = exports.getAllEvents = exports.changeStatusEventById = exports.updateYoutubeEventById = exports.deleteYoutubeEventById = exports.saveYoutubeEvent = exports.updateImageUrlAndPublicId = exports.getPhotoIdByIdEvent = exports.getEventById = exports.deleteEventById = exports.saveTitleDescriptionAndDateEvent = void 0;
 const database_1 = require("../config/database");
 const saveTitleDescriptionAndDateEvent = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -115,6 +115,16 @@ const getAllEvents = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllEvents = getAllEvents;
+const getEventsWithFalseState = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allContactForms = yield database_1.pool.query(`SELECT * FROM Events WHERE enable = false ORDER BY dates DESC `);
+        return allContactForms.rows;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.getEventsWithFalseState = getEventsWithFalseState;
 const getAllEventsWithJoin = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allContactForms = yield database_1.pool.query(`SELECT * FROM Events ORDER BY dates DESC `);

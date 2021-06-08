@@ -1,5 +1,5 @@
 import {Request, Response} from "express"
-import {getEventById, getPhotoIdByIdEvent, saveTitleDescriptionAndDateEvent,saveYoutubeEvent, updateImageUrlAndPublicId} from "../database/EventDatabase"
+import {changeStatusEventById, deleteEventById, getAllEvents, getEventById, getEventsWithFalseState, getPhotoIdByIdEvent, saveTitleDescriptionAndDateEvent,saveYoutubeEvent, updateImageUrlAndPublicId} from "../database/EventDatabase"
 import moment from "moment"
 import cloudinary from "../config/cloudinary"
 import fs from "fs-extra"
@@ -71,3 +71,29 @@ const deletePhotoByIdWhenIWillUpdate = async(id: number) =>{
 
 
 
+  export const getAllPrivatesEventsController = async(request: Request, response: Response) =>{
+    const allContactForms = await getAllEvents();
+    console.log(allContactForms)
+    return response.json({ data: allContactForms})
+  }
+
+
+  export const getPrivatesEventsWithFalseStateController = async(request: Request, response: Response) =>{
+    const allContactForms = await getEventsWithFalseState();
+    console.log(allContactForms)
+    return response.json({ data: allContactForms})
+  }
+
+
+export const deleteEventControllerById = async(request: Request, response: Response) =>{
+   
+    const id = request.params.id;
+    const result = await deleteEventById(parseInt(id));
+    return response.json({ data: result})
+  }
+export const changeStatusEventController = async(request: Request, response: Response) =>{
+   
+    const id = request.params.id;
+    const result = await changeStatusEventById(parseInt(id));
+    return response.json({ data: result})
+  }

@@ -101,6 +101,16 @@ export const getAllEvents = async () =>{
     console.log(error);
   }
 }
+
+
+export const getEventsWithFalseState = async () =>{
+  try{
+    const allContactForms : QueryResult = await pool.query(`SELECT * FROM Events WHERE enable = false ORDER BY dates DESC ` )
+    return allContactForms.rows
+  }catch(error){
+    console.log(error);
+  }
+}
 export const getAllEventsWithJoin = async () =>{
   try{
     const allContactForms : QueryResult = await pool.query(`SELECT * FROM Events ORDER BY dates DESC ` )
