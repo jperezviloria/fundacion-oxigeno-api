@@ -19,4 +19,8 @@ router.route("/update/change-true-status/:id")
     .put(EventController_1.changeStatusEventController);
 router.route("/deletebyid/:id")
     .delete(EventController_1.deleteEventControllerById);
+router.route("/save/youtubelink")
+    .post(EventController_1.saveYoutubeLinkController);
+router.route("/get/eventandyoutubelink/:id")
+    .get(EventController_1.getAllEventsWithJoinController);
 exports.default = router;
