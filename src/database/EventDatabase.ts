@@ -111,9 +111,9 @@ export const getEventsWithFalseState = async () =>{
     console.log(error);
   }
 }
-export const getAllEventsWithJoin = async () =>{
+export const getAllEventsWithJoin = async (idEvent:number) =>{
   try{
-    const allContactForms : QueryResult = await pool.query(`SELECT * FROM Events ORDER BY dates DESC ` )
+    const allContactForms : QueryResult = await pool.query(`SELECT * FROM Events as ev JOIN EventYoutube as ey ON ev.id = ey.idEvent AND ev.id = ${idEvent} ORDER BY ey.position , ey.id` )
     return allContactForms.rows
   }catch(error){
     console.log(error);

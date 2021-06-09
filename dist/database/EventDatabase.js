@@ -125,9 +125,9 @@ const getEventsWithFalseState = () => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getEventsWithFalseState = getEventsWithFalseState;
-const getAllEventsWithJoin = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllEventsWithJoin = (idEvent) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allContactForms = yield database_1.pool.query(`SELECT * FROM Events ORDER BY dates DESC `);
+        const allContactForms = yield database_1.pool.query(`SELECT * FROM Events as ev JOIN EventYoutube as ey ON ev.id = ey.idEvent AND ev.id = ${idEvent} ORDER BY ey.position , ey.id`);
         return allContactForms.rows;
     }
     catch (error) {

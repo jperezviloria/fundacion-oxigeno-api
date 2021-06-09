@@ -1,5 +1,5 @@
 import {Request, Response} from "express"
-import {changeStatusEventById, deleteEventById, getAllEvents, getEventById, getEventsWithFalseState, getPhotoIdByIdEvent, saveTitleDescriptionAndDateEvent,saveYoutubeEvent, updateImageUrlAndPublicId} from "../database/EventDatabase"
+import {changeStatusEventById, deleteEventById, getAllEvents, getAllEventsWithJoin, getEventById, getEventsWithFalseState, getPhotoIdByIdEvent, saveTitleDescriptionAndDateEvent,saveYoutubeEvent, updateImageUrlAndPublicId} from "../database/EventDatabase"
 import moment from "moment"
 import cloudinary from "../config/cloudinary"
 import fs from "fs-extra"
@@ -97,3 +97,36 @@ export const changeStatusEventController = async(request: Request, response: Res
     const result = await changeStatusEventById(parseInt(id));
     return response.json({ data: result})
   }
+
+
+export const saveYoutubeLinkController = async(request:Request, response: Response) =>{
+
+  const YoutubeLinkRequest = {
+    name: request.body.name,
+    idEvent: request.body.idEvent,
+    link:request.body.link,
+    position: request.body.position
+  }
+
+  if(!YoutubeLinkRequest.name && !YoutubeLinkRequest.idEvent && !YoutubeLinkRequest.link && !YoutubeLinkRequest.position){
+    return response.json({
+      message: "Faltan datos"
+  })
+  }
+
+  const youtubeLinkSaved = await saveYoutubeEvent(YoutubeLinkRequest)
+
+  return response.json({
+    message: youtubeLinkSaved
+  })
+
+
+}
+export const getAllEventsWithJoinController = async(request: Request, response: Response) =>{
+   
+    const id = request.params.id;
+    const result = await getAllEventsWithJoin(parseInt(id));
+    return response.json({ data: result})
+  }
+
+

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeStatusEventController = exports.deleteEventControllerById = exports.getPrivatesEventsWithFalseStateController = exports.getAllPrivatesEventsController = exports.uploadPhotosByIdEvent = exports.saveTitleDescriptionAndDateEventController = void 0;
+exports.getAllEventsWithJoinController = exports.saveYoutubeLinkController = exports.changeStatusEventController = exports.deleteEventControllerById = exports.getPrivatesEventsWithFalseStateController = exports.getAllPrivatesEventsController = exports.uploadPhotosByIdEvent = exports.saveTitleDescriptionAndDateEventController = void 0;
 const EventDatabase_1 = require("../database/EventDatabase");
 const moment_1 = __importDefault(require("moment"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
@@ -88,3 +88,27 @@ const changeStatusEventController = (request, response) => __awaiter(void 0, voi
     return response.json({ data: result });
 });
 exports.changeStatusEventController = changeStatusEventController;
+const saveYoutubeLinkController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const YoutubeLinkRequest = {
+        name: request.body.name,
+        idEvent: request.body.idEvent,
+        link: request.body.link,
+        position: request.body.position
+    };
+    if (!YoutubeLinkRequest.name && !YoutubeLinkRequest.idEvent && !YoutubeLinkRequest.link && !YoutubeLinkRequest.position) {
+        return response.json({
+            message: "Faltan datos"
+        });
+    }
+    const youtubeLinkSaved = yield EventDatabase_1.saveYoutubeEvent(YoutubeLinkRequest);
+    return response.json({
+        message: youtubeLinkSaved
+    });
+});
+exports.saveYoutubeLinkController = saveYoutubeLinkController;
+const getAllEventsWithJoinController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = request.params.id;
+    const result = yield EventDatabase_1.getAllEventsWithJoin(parseInt(id));
+    return response.json({ data: result });
+});
+exports.getAllEventsWithJoinController = getAllEventsWithJoinController;
