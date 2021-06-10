@@ -1,5 +1,5 @@
 import {Request, Response} from "express"
-import {changeStatusEventById, deleteEventById, getAllEvents, getAllEventsWithJoin, getEventById, getEventsWithFalseState, getPhotoIdByIdEvent, saveTitleDescriptionAndDateEvent,saveYoutubeEvent, updateImageUrlAndPublicId} from "../database/EventDatabase"
+import {changeStatusEventById, deleteEventById, deleteYoutubeEventById, getAllEvents, getAllEventsWithJoin, getEventById, getEventsWithFalseState, getEventsWithTrueState, getPhotoIdByIdEvent, getYoutubeLinksById, saveTitleDescriptionAndDateEvent,saveYoutubeEvent, updateImageUrlAndPublicId, updateLinkYoutubeEventById, updateNameYoutubeEventById, updatePositionYoutubeEventById} from "../database/EventDatabase"
 import moment from "moment"
 import cloudinary from "../config/cloudinary"
 import fs from "fs-extra"
@@ -127,6 +127,93 @@ export const getAllEventsWithJoinController = async(request: Request, response: 
     const id = request.params.id;
     const result = await getAllEventsWithJoin(parseInt(id));
     return response.json({ data: result})
+  }
+
+export const getAllEventsWithYoutubeLinksController = async(request: Request, response: Response) =>{
+   
+    const id = request.params.id;
+    const event = await getEventById(parseInt(id));
+    const youtubeLinks = await getYoutubeLinksById(parseInt(id))
+    const eventWithYoutubeLink = {
+      title: event.title,
+      dates: event.dates,
+      youtubeLink : youtubeLinks
+    }
+    //console.log(eventWithYoutubeLink)
+    return response.json({ data: eventWithYoutubeLink})
+  }
+
+const filteringEventWithinImageUrl = (event:any) =>{
+  if(event.imageurl && event.enable && event.title && event.description){
+    return event
+  }
+}
+export const getAllEventsWithYoutubeLinksPublicController = async(request: Request, response: Response) =>{
+   
+    let allEventsWithYoutubeLinks : any = []
+    const events = await getEventsWithTrueState();
+    if(!events){
+      return response.json({
+	message:"having error in getAllEventsWithYoutubeLinksPublicController"
+      })
+    }
+    console.log(events)
+    console.log("paso 1")
+    const eventsFiltered = events.filter(filteringEventWithinImageUrl)
+    console.log(eventsFiltered)
+    console.log("paso 2")
+    eventsFiltered.map(async particularEvent =>{
+      console.log(particularEvent)
+      const youtubeLinks = await getYoutubeLinksById(particularEvent.id)
+    const eventWithYoutubeLink = {
+      imageurl: particularEvent.imageurl,
+      title: particularEvent.title,
+      dates: particularEvent.dates,
+      description: particularEvent.description,
+      youtubeLink : youtubeLinks
+    }  
+    console.log(eventWithYoutubeLink)
+    allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
+    })
+    
+    //console.log(eventWithYoutubeLink)
+    return response.json({ data: allEventsWithYoutubeLinks})
+  }
+export const updateOnlyPositionYoutubeLinkById = async(request: Request, response: Response) =>{
+
+    const youtubeLink = {
+      id: request.body.id,
+      position: request.body.position
+    }
+    const result = await updatePositionYoutubeEventById(youtubeLink);
+    return response.json({ data: result})
+  }
+
+export const deleteYoutubeLinkByIdController = async(request: Request, response: Response) =>{
+   
+    const id = request.params.id;
+    const result = await deleteYoutubeEventById(parseInt(id));
+    return response.json({ data: result})
+  }
+
+export const updateOnlyNameYoutubeLinkByIdController = async(request: Request, response: Response) =>{
+   const youtubeLink = {
+      id: request.body.id,
+      name: request.body.name
+    }
+    const result = await updateNameYoutubeEventById(youtubeLink);
+    return response.json({ data: result})
+    
+  }
+
+export const updateOnlyLinkYoutubeLinkByIdController = async(request: Request, response: Response) =>{
+   const youtubeLink = {
+      id: request.body.id,
+      link: request.body.link
+    }
+    const result = await updateLinkYoutubeEventById(youtubeLink);
+    return response.json({ data: result})
+   
   }
 
 

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllEventsWithJoin = exports.getEventsWithFalseState = exports.getAllEvents = exports.changeStatusEventById = exports.updateYoutubeEventById = exports.deleteYoutubeEventById = exports.saveYoutubeEvent = exports.updateImageUrlAndPublicId = exports.getPhotoIdByIdEvent = exports.getEventById = exports.deleteEventById = exports.saveTitleDescriptionAndDateEvent = void 0;
+exports.updatePositionYoutubeEventById = exports.updateLinkYoutubeEventById = exports.updateNameYoutubeEventById = exports.getYoutubeLinksById = exports.getAllEventsWithJoin = exports.getEventsWithTrueState = exports.getEventsWithFalseState = exports.getAllEvents = exports.changeStatusEventById = exports.updateYoutubeEventById = exports.deleteYoutubeEventById = exports.saveYoutubeEvent = exports.updateImageUrlAndPublicId = exports.getPhotoIdByIdEvent = exports.getEventById = exports.deleteEventById = exports.saveTitleDescriptionAndDateEvent = void 0;
 const database_1 = require("../config/database");
 const saveTitleDescriptionAndDateEvent = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -76,7 +76,7 @@ const saveYoutubeEvent = (event) => __awaiter(void 0, void 0, void 0, function* 
 exports.saveYoutubeEvent = saveYoutubeEvent;
 const deleteYoutubeEventById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const event = yield database_1.pool.query(` DELETE FROM Eventsyoutube WHERE id = ${id}`);
+        const event = yield database_1.pool.query(` DELETE FROM Eventyoutube WHERE id = ${id}`);
         return "deleted";
     }
     catch (error) {
@@ -125,6 +125,16 @@ const getEventsWithFalseState = () => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getEventsWithFalseState = getEventsWithFalseState;
+const getEventsWithTrueState = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allContactForms = yield database_1.pool.query(`SELECT * FROM Events WHERE enable = true ORDER BY dates DESC `);
+        return allContactForms.rows;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.getEventsWithTrueState = getEventsWithTrueState;
 const getAllEventsWithJoin = (idEvent) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allContactForms = yield database_1.pool.query(`SELECT * FROM Events as ev JOIN EventYoutube as ey ON ev.id = ey.idEvent AND ev.id = ${idEvent} ORDER BY ey.position , ey.id`);
@@ -135,3 +145,43 @@ const getAllEventsWithJoin = (idEvent) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getAllEventsWithJoin = getAllEventsWithJoin;
+const getYoutubeLinksById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const event = yield database_1.pool.query(`SELECT * FROM eventyoutube WHERE idEvent = ${id} ORDER BY position, id DESC`);
+        return event.rows;
+    }
+    catch (error) {
+        return "not updated";
+    }
+});
+exports.getYoutubeLinksById = getYoutubeLinksById;
+const updateNameYoutubeEventById = (youtubeevent) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const eventUpdated = yield database_1.pool.query(`UPDATE Eventyoutube SET name = '${youtubeevent.name}' WHERE id = ${youtubeevent.id}`);
+        return "updated";
+    }
+    catch (error) {
+        return "no updated";
+    }
+});
+exports.updateNameYoutubeEventById = updateNameYoutubeEventById;
+const updateLinkYoutubeEventById = (youtubeevent) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const eventUpdated = yield database_1.pool.query(`UPDATE Eventyoutube SET link = '${youtubeevent.link}' WHERE id = ${youtubeevent.id}`);
+        return "updated";
+    }
+    catch (error) {
+        return "no updated";
+    }
+});
+exports.updateLinkYoutubeEventById = updateLinkYoutubeEventById;
+const updatePositionYoutubeEventById = (youtubeevent) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const eventUpdated = yield database_1.pool.query(`UPDATE Eventyoutube SET position = ${youtubeevent.position} WHERE id = ${youtubeevent.id}`);
+        return "updated";
+    }
+    catch (error) {
+        return "no updated";
+    }
+});
+exports.updatePositionYoutubeEventById = updatePositionYoutubeEventById;

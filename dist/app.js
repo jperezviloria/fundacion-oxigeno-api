@@ -36,6 +36,7 @@ const SocialMediaRoutes_1 = __importDefault(require("./routes/SocialMediaRoutes"
 const ContactFormRoutes_1 = __importDefault(require("./routes/ContactFormRoutes"));
 const SponsorRoutes_1 = __importDefault(require("./routes/SponsorRoutes"));
 const PaypalRoutes_1 = __importDefault(require("./routes/PaypalRoutes"));
+const EventPublicRoutes_1 = __importDefault(require("./routes/public/EventPublicRoutes"));
 const AuthPrivateRoutes_1 = __importDefault(require("./routes/privates/AuthPrivateRoutes"));
 const EventPrivateRoutes_1 = __importDefault(require("./routes/privates/EventPrivateRoutes"));
 const app = express_1.default();
@@ -56,6 +57,7 @@ app.use("/contact-form", ContactFormRoutes_1.default);
 app.use("/sponsor", SponsorRoutes_1.default);
 app.use("/paypal", PaypalRoutes_1.default);
 app.use("/upload", express_1.default.static(path_1.default.resolve('uploads')));
+app.use("/public-event", EventPublicRoutes_1.default);
 //private routes
 app.use("/private-auth", passport_1.default.authenticate('jwt', { session: false }), AuthPrivateRoutes_1.default);
 app.use("/private-event", passport_1.default.authenticate('jwt', { session: false }), EventPrivateRoutes_1.default);

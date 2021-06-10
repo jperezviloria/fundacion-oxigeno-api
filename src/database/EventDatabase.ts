@@ -66,7 +66,7 @@ export const saveYoutubeEvent = async (event:any) =>{
 export const deleteYoutubeEventById = async (id:number) =>{
   try{
     
-    const event : QueryResult = await pool.query(` DELETE FROM Eventsyoutube WHERE id = ${id}`)
+    const event : QueryResult = await pool.query(` DELETE FROM Eventyoutube WHERE id = ${id}`)
     return "deleted"
   }catch(error){
     return "not deleted"
@@ -111,6 +111,17 @@ export const getEventsWithFalseState = async () =>{
     console.log(error);
   }
 }
+
+
+export const getEventsWithTrueState = async () =>{
+  try{
+    const allContactForms : QueryResult = await pool.query(`SELECT * FROM Events WHERE enable = true ORDER BY dates DESC ` )
+    return allContactForms.rows
+  }catch(error){
+    console.log(error);
+  }
+}
+
 export const getAllEventsWithJoin = async (idEvent:number) =>{
   try{
     const allContactForms : QueryResult = await pool.query(`SELECT * FROM Events as ev JOIN EventYoutube as ey ON ev.id = ey.idEvent AND ev.id = ${idEvent} ORDER BY ey.position , ey.id` )
@@ -118,4 +129,46 @@ export const getAllEventsWithJoin = async (idEvent:number) =>{
   }catch(error){
     console.log(error);
   }
+}
+export const getYoutubeLinksById = async (id:number) =>{
+  try{
+    
+    const event : QueryResult = await pool.query(`SELECT * FROM eventyoutube WHERE idEvent = ${id} ORDER BY position, id DESC`)
+    return event.rows
+  }catch(error){
+    return "not updated"
+  }
+}
+
+
+export const updateNameYoutubeEventById = async (youtubeevent:any) =>{
+
+      try{
+        const eventUpdated : QueryResult = await pool.query(`UPDATE Eventyoutube SET name = '${youtubeevent.name}' WHERE id = ${youtubeevent.id}`)
+      return "updated"
+    }catch(error){
+        return "no updated"
+    }
+}
+
+
+export const updateLinkYoutubeEventById = async (youtubeevent:any) =>{
+
+      try{
+        const eventUpdated : QueryResult = await pool.query(`UPDATE Eventyoutube SET link = '${youtubeevent.link}' WHERE id = ${youtubeevent.id}`)
+      return "updated"
+    }catch(error){
+        return "no updated"
+    }
+}
+
+
+export const updatePositionYoutubeEventById = async (youtubeevent:any) =>{
+
+      try{
+        const eventUpdated : QueryResult = await pool.query(`UPDATE Eventyoutube SET position = ${youtubeevent.position} WHERE id = ${youtubeevent.id}`)
+      return "updated"
+    }catch(error){
+        return "no updated"
+    }
 }
