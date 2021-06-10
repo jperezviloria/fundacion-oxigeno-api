@@ -130,21 +130,9 @@ const filteringEventWithinImageUrl = (event) => {
         return event;
     }
 };
-const getAllEventsWithYoutubeLinksPublicController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    let allEventsWithYoutubeLinks = [];
-    const events = yield EventDatabase_1.getEventsWithTrueState();
-    if (!events) {
-        return response.json({
-            message: "having error in getAllEventsWithYoutubeLinksPublicController"
-        });
-    }
-    console.log(events);
-    console.log("paso 1");
-    const eventsFiltered = events.filter(filteringEventWithinImageUrl);
-    console.log(eventsFiltered);
-    console.log("paso 2");
-    eventsFiltered.map((particularEvent) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(particularEvent);
+const iteratingYoutubeLinks = (events) => __awaiter(void 0, void 0, void 0, function* () {
+    var allEventsWithYoutubeLinks = [];
+    events.map((particularEvent) => __awaiter(void 0, void 0, void 0, function* () {
         const youtubeLinks = yield EventDatabase_1.getYoutubeLinksById(particularEvent.id);
         const eventWithYoutubeLink = {
             imageurl: particularEvent.imageurl,
@@ -153,11 +141,42 @@ const getAllEventsWithYoutubeLinksPublicController = (request, response) => __aw
             description: particularEvent.description,
             youtubeLink: youtubeLinks
         };
-        console.log(eventWithYoutubeLink);
-        allEventsWithYoutubeLinks.push(eventWithYoutubeLink);
+        //console.log(eventWithYoutubeLink)
+        // allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
+        allEventsWithYoutubeLinks = [...allEventsWithYoutubeLinks, eventWithYoutubeLink];
     }));
-    //console.log(eventWithYoutubeLink)
-    return response.json({ data: allEventsWithYoutubeLinks });
+    console.log("aaaaaaaaaa");
+    return allEventsWithYoutubeLinks;
+});
+const getAllEventsWithYoutubeLinksPublicController = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const events = yield EventDatabase_1.getEventsWithTrueState();
+    if (!events) {
+        return response.json({
+            message: "having error in getAllEventsWithYoutubeLinksPublicController"
+        });
+    }
+    const eventsFiltered = events.filter(filteringEventWithinImageUrl);
+    /*
+    const allEventsWithYoutubeLinks = new Array()
+    
+    eventsFiltered.map(async particularEvent =>{
+      const youtubeLinks = await getYoutubeLinksById(particularEvent.id)
+      const eventWithYoutubeLink = {
+      imageurl: particularEvent.imageurl,
+      title: particularEvent.title,
+      dates: particularEvent.dates,
+      description: particularEvent.description,
+      youtubeLink : youtubeLinks
+    }
+    console.log(eventWithYoutubeLink)
+    allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
+
+    })
+    */
+    const result = yield iteratingYoutubeLinks(eventsFiltered);
+    console.log("ADDDDD");
+    console.log(result);
+    return response.json({ data: result });
 });
 exports.getAllEventsWithYoutubeLinksPublicController = getAllEventsWithYoutubeLinksPublicController;
 const updateOnlyPositionYoutubeLinkById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {

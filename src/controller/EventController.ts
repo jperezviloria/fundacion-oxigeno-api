@@ -148,24 +148,43 @@ const filteringEventWithinImageUrl = (event:any) =>{
     return event
   }
 }
+
+const iteratingYoutubeLinks = async(events: any[]):Promise<any[]> =>{
+  
+  var allEventsWithYoutubeLinks:any[] = []
+ events.map(async particularEvent =>{
+      const youtubeLinks = await getYoutubeLinksById(particularEvent.id)
+      const eventWithYoutubeLink = {
+      imageurl: particularEvent.imageurl,
+      title: particularEvent.title,
+      dates: particularEvent.dates,
+      description: particularEvent.description,
+      youtubeLink : youtubeLinks
+    }  
+    //console.log(eventWithYoutubeLink)
+   // allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
+   allEventsWithYoutubeLinks = [...allEventsWithYoutubeLinks, eventWithYoutubeLink]
+
+    })
+    console.log("aaaaaaaaaa")
+    return allEventsWithYoutubeLinks
+}
 export const getAllEventsWithYoutubeLinksPublicController = async(request: Request, response: Response) =>{
    
-    let allEventsWithYoutubeLinks : any = []
+    
     const events = await getEventsWithTrueState();
     if(!events){
       return response.json({
 	message:"having error in getAllEventsWithYoutubeLinksPublicController"
       })
     }
-    console.log(events)
-    console.log("paso 1")
     const eventsFiltered = events.filter(filteringEventWithinImageUrl)
-    console.log(eventsFiltered)
-    console.log("paso 2")
+    /*
+    const allEventsWithYoutubeLinks = new Array()
+    
     eventsFiltered.map(async particularEvent =>{
-      console.log(particularEvent)
       const youtubeLinks = await getYoutubeLinksById(particularEvent.id)
-    const eventWithYoutubeLink = {
+      const eventWithYoutubeLink = {
       imageurl: particularEvent.imageurl,
       title: particularEvent.title,
       dates: particularEvent.dates,
@@ -174,10 +193,13 @@ export const getAllEventsWithYoutubeLinksPublicController = async(request: Reque
     }  
     console.log(eventWithYoutubeLink)
     allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
+
     })
-    
-    //console.log(eventWithYoutubeLink)
-    return response.json({ data: allEventsWithYoutubeLinks})
+    */
+   const result = await iteratingYoutubeLinks(eventsFiltered)
+    console.log("ADDDDD")
+    console.log(result)
+    return response.json({ data: result})
   }
 export const updateOnlyPositionYoutubeLinkById = async(request: Request, response: Response) =>{
 
