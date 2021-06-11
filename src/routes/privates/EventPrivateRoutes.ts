@@ -1,6 +1,6 @@
 import {Router} from "express"
 import multer from "../../config/multer";
-import {changeStatusEventController, getPrivatesEventsWithFalseStateController,deleteEventControllerById, getAllPrivatesEventsController, saveTitleDescriptionAndDateEventController, uploadPhotosByIdEvent, saveYoutubeLinkController, getAllEventsWithJoinController} from "../../controller/EventController";
+import {changeStatusEventController, getPrivatesEventsWithFalseStateController,deleteEventControllerById, getAllPrivatesEventsController, saveTitleDescriptionAndDateEventController, uploadPhotosByIdEvent, saveYoutubeLinkController, getAllEventsWithJoinController, getAllEventsWithYoutubeLinksController, updateOnlyNameYoutubeLinkByIdController, updateOnlyLinkYoutubeLinkByIdController, updateOnlyPositionYoutubeLinkById, deleteYoutubeLinkByIdController} from "../../controller/EventController";
 
 const router = Router();
 
@@ -26,7 +26,21 @@ router.route("/deletebyid/:id")
 router.route("/save/youtubelink")
 .post(saveYoutubeLinkController)
 
-router.route("/get/eventandyoutubelink/:id")
+router.route("/get/eventandyoutubelink2/:id")
 .get(getAllEventsWithJoinController)
 
+router.route("/get/eventandyoutubelink/:id")
+.get(getAllEventsWithYoutubeLinksController)
+
+router.route("/update/youtubelink/name")
+.put(updateOnlyNameYoutubeLinkByIdController)
+
+router.route("/update/youtubelink/link")
+.put(updateOnlyLinkYoutubeLinkByIdController)
+
+router.route("/update/youtubelink/position")
+.put(updateOnlyPositionYoutubeLinkById)
+
+router.route("/delete/youtubelinkbyid/:id")
+.delete(deleteYoutubeLinkByIdController)
 export default router;

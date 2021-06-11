@@ -14,6 +14,9 @@ import SocialMediaRoutes from "./routes/SocialMediaRoutes"
 import ContactFormRoutes from "./routes/ContactFormRoutes"
 import SponsorRoutes from "./routes/SponsorRoutes"
 import PaypalRoutes from "./routes/PaypalRoutes"
+import EventPublicRoutes from "./routes/public/EventPublicRoutes"
+
+
 
 import AuthPrivateRoutes from "./routes/privates/AuthPrivateRoutes"
 import EventPrivateRoutes from "./routes/privates/EventPrivateRoutes"
@@ -40,6 +43,7 @@ app.use("/contact-form", ContactFormRoutes);
 app.use("/sponsor", SponsorRoutes);
 app.use("/paypal", PaypalRoutes)
 app.use("/upload",Express.static(path.resolve('uploads')));
+app.use("/public-event",EventPublicRoutes)
 
 
 //private routes

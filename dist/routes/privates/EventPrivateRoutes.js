@@ -21,6 +21,16 @@ router.route("/deletebyid/:id")
     .delete(EventController_1.deleteEventControllerById);
 router.route("/save/youtubelink")
     .post(EventController_1.saveYoutubeLinkController);
-router.route("/get/eventandyoutubelink/:id")
+router.route("/get/eventandyoutubelink2/:id")
     .get(EventController_1.getAllEventsWithJoinController);
+router.route("/get/eventandyoutubelink/:id")
+    .get(EventController_1.getAllEventsWithYoutubeLinksController);
+router.route("/update/youtubelink/name")
+    .put(EventController_1.updateOnlyNameYoutubeLinkByIdController);
+router.route("/update/youtubelink/link")
+    .put(EventController_1.updateOnlyLinkYoutubeLinkByIdController);
+router.route("/update/youtubelink/position")
+    .put(EventController_1.updateOnlyPositionYoutubeLinkById);
+router.route("/delete/youtubelinkbyid/:id")
+    .delete(EventController_1.deleteYoutubeLinkByIdController);
 exports.default = router;
