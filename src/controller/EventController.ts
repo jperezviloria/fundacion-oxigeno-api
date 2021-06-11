@@ -151,7 +151,7 @@ const filteringEventWithinImageUrl = (event:any) =>{
 
 const iteratingYoutubeLinks = async(events: any[]):Promise<any[]> =>{
   
-  var allEventsWithYoutubeLinks:any[] = []
+  var allEventsWithYoutubeLinks:any[] =[]
  events.map(async particularEvent =>{
       const youtubeLinks = await getYoutubeLinksById(particularEvent.id)
       const eventWithYoutubeLink = {
@@ -161,14 +161,41 @@ const iteratingYoutubeLinks = async(events: any[]):Promise<any[]> =>{
       description: particularEvent.description,
       youtubeLink : youtubeLinks
     }  
-    //console.log(eventWithYoutubeLink)
+    console.log(eventWithYoutubeLink)
    // allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
-   allEventsWithYoutubeLinks = [...allEventsWithYoutubeLinks, eventWithYoutubeLink]
+    allEventsWithYoutubeLinks= [...allEventsWithYoutubeLinks, eventWithYoutubeLink]
 
     })
+    
+    console.log(allEventsWithYoutubeLinks)
     console.log("aaaaaaaaaa")
     return allEventsWithYoutubeLinks
 }
+
+const iteratingYoutubeLinks2 = async(events: any[]):Promise<any[]> =>{
+  
+    var allEventsWithYoutubeLinks:any[] =[]
+    
+      
+    for(let particularEvent of events){
+      const youtubeLinks = await getYoutubeLinksById(particularEvent.id)
+      const eventWithYoutubeLink = {
+      imageurl: particularEvent.imageurl,
+      title: particularEvent.title,
+      dates: particularEvent.dates,
+      description: particularEvent.description,
+      youtubeLink : youtubeLinks
+    } 
+    allEventsWithYoutubeLinks= [...allEventsWithYoutubeLinks, eventWithYoutubeLink]
+    }
+    
+   // allEventsWithYoutubeLinks.push(eventWithYoutubeLink) 
+    
+    console.log(allEventsWithYoutubeLinks)
+    console.log("aaaaaaaaaa")
+    return allEventsWithYoutubeLinks
+}
+
 export const getAllEventsWithYoutubeLinksPublicController = async(request: Request, response: Response) =>{
    
     
@@ -196,7 +223,7 @@ export const getAllEventsWithYoutubeLinksPublicController = async(request: Reque
 
     })
     */
-   const result = await iteratingYoutubeLinks(eventsFiltered)
+   const result = await iteratingYoutubeLinks2(eventsFiltered)
     console.log("ADDDDD")
     console.log(result)
     return response.json({ data: result})

@@ -141,10 +141,29 @@ const iteratingYoutubeLinks = (events) => __awaiter(void 0, void 0, void 0, func
             description: particularEvent.description,
             youtubeLink: youtubeLinks
         };
-        //console.log(eventWithYoutubeLink)
+        console.log(eventWithYoutubeLink);
         // allEventsWithYoutubeLinks.push(eventWithYoutubeLink)
         allEventsWithYoutubeLinks = [...allEventsWithYoutubeLinks, eventWithYoutubeLink];
     }));
+    console.log(allEventsWithYoutubeLinks);
+    console.log("aaaaaaaaaa");
+    return allEventsWithYoutubeLinks;
+});
+const iteratingYoutubeLinks2 = (events) => __awaiter(void 0, void 0, void 0, function* () {
+    var allEventsWithYoutubeLinks = [];
+    for (let particularEvent of events) {
+        const youtubeLinks = yield EventDatabase_1.getYoutubeLinksById(particularEvent.id);
+        const eventWithYoutubeLink = {
+            imageurl: particularEvent.imageurl,
+            title: particularEvent.title,
+            dates: particularEvent.dates,
+            description: particularEvent.description,
+            youtubeLink: youtubeLinks
+        };
+        allEventsWithYoutubeLinks = [...allEventsWithYoutubeLinks, eventWithYoutubeLink];
+    }
+    // allEventsWithYoutubeLinks.push(eventWithYoutubeLink) 
+    console.log(allEventsWithYoutubeLinks);
     console.log("aaaaaaaaaa");
     return allEventsWithYoutubeLinks;
 });
@@ -173,7 +192,7 @@ const getAllEventsWithYoutubeLinksPublicController = (request, response) => __aw
 
     })
     */
-    const result = yield iteratingYoutubeLinks(eventsFiltered);
+    const result = yield iteratingYoutubeLinks2(eventsFiltered);
     console.log("ADDDDD");
     console.log(result);
     return response.json({ data: result });
