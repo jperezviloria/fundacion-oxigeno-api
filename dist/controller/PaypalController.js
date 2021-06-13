@@ -40,7 +40,7 @@ const createPayment = (request, response) => {
                 }
             }],
         application_context: {
-            brand_name: `Spanish Tongue Sound`,
+            brand_name: `Fundacion Oxigeno`,
             landing_page: 'NO_PREFERENCE',
             user_action: 'PAY_NOW',
             return_url: `http://localhost:5000/paypal/execute-payment`,

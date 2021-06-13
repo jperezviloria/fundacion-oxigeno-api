@@ -133,7 +133,7 @@ export const getAllEventsWithJoin = async (idEvent:number) =>{
 export const getYoutubeLinksById = async (id:number) =>{
   try{
     
-    const event : QueryResult = await pool.query(`SELECT * FROM eventyoutube WHERE idEvent = ${id} ORDER BY position, id DESC`)
+    const event : QueryResult = await pool.query(`SELECT * FROM eventyoutube WHERE idEvent = ${id} ORDER BY position DESC, id DESC`)
     return event.rows
   }catch(error){
     return "not updated"
