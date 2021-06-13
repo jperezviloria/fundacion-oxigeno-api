@@ -147,7 +147,7 @@ const getAllEventsWithJoin = (idEvent) => __awaiter(void 0, void 0, void 0, func
 exports.getAllEventsWithJoin = getAllEventsWithJoin;
 const getYoutubeLinksById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const event = yield database_1.pool.query(`SELECT * FROM eventyoutube WHERE idEvent = ${id} ORDER BY position, id DESC`);
+        const event = yield database_1.pool.query(`SELECT * FROM eventyoutube WHERE idEvent = ${id} ORDER BY position DESC, id DESC`);
         return event.rows;
     }
     catch (error) {
