@@ -33,7 +33,7 @@ export const signUp = async(req: Request, res: Response):Promise<Response> =>{
         emailUser: req.body.emailUser,
         passwordUser: req.body.passwordUser,
         idRol: req.body.idRol, 
-	enable: true,
+	    enable: true,
 	
     }
    
