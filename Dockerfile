@@ -2,6 +2,8 @@ FROM node:latest
 
 WORKDIR /app
 
+ENV PATH .:$PATH
+
 COPY package*.json ./
 
 RUN npm install
