@@ -2,7 +2,7 @@ FROM node:latest
 
 WORKDIR /app
 
-ENV PATH .:$PATH
+COPY .env ./
 
 COPY package*.json ./
 
