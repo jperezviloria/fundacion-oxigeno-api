@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.executePayment = exports.createPayment = void 0;
+exports.cancelPayment = exports.executePayment = exports.createPayment = void 0;
 const paypal_1 = __importStar(require("../config/paypal"));
 const request_1 = __importDefault(require("request"));
 const createPayment = (request, response) => {
@@ -43,8 +43,8 @@ const createPayment = (request, response) => {
             brand_name: `Fundacion Oxigeno`,
             landing_page: 'NO_PREFERENCE',
             user_action: 'PAY_NOW',
-            return_url: `http://localhost:5000/paypal/execute-payment`,
-            cancel_url: `http://localhost:5000/paypal/cancel-payment`,
+            return_url: `http://72.167.32.219:5000/paypal/execute-payment`,
+            cancel_url: `http://72.167.32.219:5000/paypal/cancel-payment`,
         }
     };
     request_1.default.post(`${paypal_1.PAYPAL_API}/v2/checkout/orders`, {
@@ -66,7 +66,11 @@ const executePayment = (request, response) => {
         body: {},
         json: true
     }, (err, particularResponse) => {
-        response.json({ data: particularResponse.body });
     });
+    response.redirect("http://72.167.32.219:3000/thanks");
 };
 exports.executePayment = executePayment;
+const cancelPayment = (request, response) => {
+    response.redirect("http://72.167.32.219:3000");
+};
+exports.cancelPayment = cancelPayment;

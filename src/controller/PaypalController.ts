@@ -23,8 +23,8 @@ export const createPayment = (request: Request, response: Response) =>{
             brand_name:`Fundacion Oxigeno`,
             landing_page:'NO_PREFERENCE',
             user_action: 'PAY_NOW',
-            return_url: `http://localhost:5000/paypal/execute-payment`,
-            cancel_url: `http://localhost:5000/paypal/cancel-payment`,
+            return_url: `http://72.167.32.219:5000/paypal/execute-payment`,
+            cancel_url: `http://72.167.32.219:5000/paypal/cancel-payment`,
         }
     }
 
@@ -49,7 +49,12 @@ export const executePayment = (request: Request, response: Response) =>{
         body: {},
         json: true
     }, (err, particularResponse) =>{
-        response.json({data: particularResponse.body})
-    })
 
+    })
+    response.redirect("http://72.167.32.219:3000/thanks")
+
+}
+
+export const cancelPayment = (request: Request, response: Response) =>{
+    response.redirect("http://72.167.32.219:3000")
 }

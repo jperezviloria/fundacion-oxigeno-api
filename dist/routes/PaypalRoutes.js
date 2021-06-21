@@ -7,4 +7,6 @@ router.route("/create-payment")
     .post(PaypalController_1.createPayment);
 router.route("/execute-payment")
     .get(PaypalController_1.executePayment);
+router.route("/cancel-payment")
+    .get(PaypalController_1.cancelPayment);
 exports.default = router;

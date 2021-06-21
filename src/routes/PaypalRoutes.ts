@@ -1,5 +1,5 @@
 import {Router} from "express"
-import {createPayment, executePayment} from "../controller/PaypalController";
+import {cancelPayment, createPayment, executePayment} from "../controller/PaypalController";
 
 const router = Router();
 
@@ -8,5 +8,8 @@ router.route("/create-payment")
 
 router.route("/execute-payment")
 .get(executePayment);
+
+router.route("/cancel-payment")
+.get(cancelPayment);
 
 export default router;
